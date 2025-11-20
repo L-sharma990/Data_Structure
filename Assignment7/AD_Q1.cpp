@@ -1,30 +1,47 @@
-#include<iostream>
+#include <iostream>
 using namespace std;
 
-void countnumber(int *prr,int n,int k){
-    int count=0;
-    cout<<"Pairs of array in which k is the difference:";
-    for(int i=0;i<n;i++){
-        for(int j=i+1;j<n;j++){
-            if(abs(prr[i]-prr[j])==k){
-                cout<<"["<<prr[i]<<","<<prr[j]<<"] ";
-                count++;
-            }
-        }
-    }
+void countSort(int array[], int size) {
+  int output[10];
+  int count[10];
+  int max = array[0];
 
-    cout<<"\nTotal number of pairs in k is difference: "<<count<<endl;
+  for (int i = 1; i < size; i++) {
+    if (array[i] > max)
+      max = array[i];
+  }
+
+  for (int i = 0; i <= max; ++i) {
+    count[i] = 0;
+  }
+
+  for (int i = 0; i < size; i++) {
+    count[array[i]]++;
+  }
+
+  for (int i = 1; i <= max; i++) {
+    count[i] += count[i - 1];
+  }
+
+  for (int i = size - 1; i >= 0; i--) {
+    output[count[array[i]] - 1] = array[i];
+    count[array[i]]--;
+  }
+
+  for (int i = 0; i < size; i++) {
+    array[i] = output[i];
+  }
 }
-int main(){
-    int arr[20],n;
-    int k;
-    cout<<"Enter the number of elements in array:";
-    cin>>n;
-    for(int i=0;i<n;i++){
-        cout<<"arr["<<i<<"]:";
-        cin>>arr[i];
-    }
-    cout<<"Enter the difference you have to find:";
-    cin>>k;
-    countnumber(arr,n,k);
+
+void printArray(int array[], int size) {
+  for (int i = 0; i < size; i++)
+    cout << array[i] << " ";
+  cout << endl;
+}
+
+int main() {
+  int array[] = {4, 2, 2, 8, 3, 3, 1};
+  int n = sizeof(array) / sizeof(array[0]);
+  countSort(array, n);
+  printArray(array, n);
 }
