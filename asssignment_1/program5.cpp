@@ -1,33 +1,41 @@
-#include<iostream>
+#include <iostream>
 using namespace std;
 
 int main() {
-    int arr[100], n;
-    cout << "Enter the number of elements: ";
-    cin >> n;
-    cout << "Enter the elements:\n";
-    for(int i = 0; i < n; i++) {
-        cin >> arr[i];
-    }
-    cout << "\nOriginal Array:\n";
-    for(int i = 0; i < n; i++) {
-        cout << arr[i] << " ";
-    }
-    cout << endl;
-    int start = 0, end = n - 1;
-    while(start < end) {
-        int temp = arr[start];
-        arr[start] = arr[end];
-        arr[end] = temp;
-        start++;
-        end--;
+    int r1, c1, r2, c2;
+    cout << "Enter rows and columns of first matrix: ";
+    cin >> r1 >> c1;
+    cout << "Enter rows and columns of second matrix: ";
+    cin >> r2 >> c2;
+
+    if (c1 != r2) {
+        cout << "Matrix multiplication not possible." << endl;
+        return 0;
     }
 
-    cout << "Reversed Array";
-    for(int i = 0; i < n; i++) {
-        cout << arr[i] << " ";
+    int A[10][10], B[10][10], C[10][10] = {0};
+
+    cout << "Enter elements of first matrix:\n";
+    for (int i = 0; i < r1; i++)
+        for (int j = 0; j < c1; j++)
+            cin >> A[i][j];
+
+    cout << "Enter elements of second matrix:\n";
+    for (int i = 0; i < r2; i++)
+        for (int j = 0; j < c2; j++)
+            cin >> B[i][j];
+
+    for (int i = 0; i < r1; i++)
+        for (int j = 0; j < c2; j++)
+            for (int k = 0; k < c1; k++)
+                C[i][j] += A[i][k] * B[k][j];
+
+    cout << "Resultant matrix:\n";
+    for (int i = 0; i < r1; i++) {
+        for (int j = 0; j < c2; j++)
+            cout << C[i][j] << " ";
+        cout << endl;
     }
-    cout << endl;
 
     return 0;
 }
