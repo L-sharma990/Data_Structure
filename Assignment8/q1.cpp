@@ -1,11 +1,11 @@
-#include <bits/stdc++.h>
+#include <iostream>
 using namespace std;
 
 struct Node {
     int val;
     Node* left;
     Node* right;
-    Node(int v) : val(v), left(NULL), right(NULL) {}
+    Node(int v) { val = v; left = right = NULL; }
 };
 
 void preorder(Node* root) {
@@ -40,5 +40,4 @@ int main() {
     inorder(root);
     cout << endl;
     postorder(root);
-    return 0;
 }
