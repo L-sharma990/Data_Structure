@@ -1,4 +1,6 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <queue>
 using namespace std;
 
 struct TreeNode {
@@ -33,6 +35,13 @@ int main() {
     root->left->left = new TreeNode(4);
     root->left->right = new TreeNode(5);
     root->right->right = new TreeNode(6);
+    
     vector<int> v = rightSideView(root);
+    
+    for (int x : v) {
+        cout << x << " ";
+    }
+    cout << endl;
+    
     return 0;
 }
