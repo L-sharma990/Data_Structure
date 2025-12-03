@@ -1,4 +1,6 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <unordered_map>
 using namespace std;
 
 struct TreeNode {
@@ -25,9 +27,20 @@ TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
     return buildInPost(inorder, 0, inorder.size() - 1, postorder, 0, postorder.size() - 1, mp);
 }
 
+void printInorder(TreeNode* root) {
+    if (!root) return;
+    printInorder(root->left);
+    cout << root->val << " ";
+    printInorder(root->right);
+}
+
 int main() {
     vector<int> inorder = {9, 3, 15, 20, 7};
     vector<int> postorder = {9, 15, 7, 20, 3};
     TreeNode* root = buildTree(inorder, postorder);
+    
+    printInorder(root);
+    cout << endl;
+    
     return 0;
 }
