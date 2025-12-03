@@ -1,4 +1,4 @@
-#include <bits/stdc++.h>
+#include <iostream>
 using namespace std;
 
 struct TreeNode {
@@ -10,7 +10,9 @@ struct TreeNode {
 
 int dfs(TreeNode* root, bool isLeft) {
     if (!root) return 0;
-    if (!root->left && !root->right) return isLeft ? root->val : 0;
+    if (!root->left && !root->right) {
+        return isLeft ? root->val : 0;
+    }
     return dfs(root->left, true) + dfs(root->right, false);
 }
 
@@ -24,6 +26,16 @@ int main() {
     root->right = new TreeNode(20);
     root->right->left = new TreeNode(15);
     root->right->right = new TreeNode(7);
+
     int s = sumOfLeftLeaves(root);
+
+    cout << "Sum of left leaves: " << s << endl;
+
+    delete root->right->right;
+    delete root->right->left;
+    delete root->right;
+    delete root->left;
+    delete root;
+
     return 0;
 }
