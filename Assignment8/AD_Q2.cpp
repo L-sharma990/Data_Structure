@@ -1,4 +1,4 @@
-#include <bits/stdc++.h>
+#include <iostream>
 using namespace std;
 
 struct TreeNode {
@@ -8,33 +8,57 @@ struct TreeNode {
     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
 
+struct TreeList {
+    TreeNode* tree;
+    TreeList* next;
+    TreeList(TreeNode* t) : tree(t), next(NULL) {}
+};
+
 class Solution {
 public:
-    vector<TreeNode*> build(int l, int r) {
-        if (l > r) return {NULL};
-        vector<TreeNode*> res;
+    TreeList* build(int l, int r) {
+        if (l > r) {
+            return new TreeList(NULL); 
+        }
+        
+        TreeList* res = NULL;
+        
         for (int i = l; i <= r; ++i) {
-            vector<TreeNode*> leftTrees = build(l, i - 1);
-            vector<TreeNode*> rightTrees = build(i + 1, r);
-            for (auto L : leftTrees) {
-                for (auto R : rightTrees) {
+            TreeList* leftTrees = build(l, i - 1);
+            TreeList* rightTrees = build(i + 1, r);
+            
+            for (TreeList* L = leftTrees; L != NULL; L = L->next) {
+                for (TreeList* R = rightTrees; R != NULL; R = R->next) {
                     TreeNode* root = new TreeNode(i);
-                    root->left = L;
-                    root->right = R;
-                    res.push_back(root);
+                    root->left = L->tree;
+                    root->right = R->tree;
+                    
+                    TreeList* newNode = new TreeList(root);
+                    newNode->next = res;
+                    res = newNode;
                 }
             }
         }
         return res;
     }
-    vector<TreeNode*> generateTrees(int n) {
-        if (n == 0) return {};
+    
+    TreeList* generateTrees(int n) {
+        if (n == 0) return NULL;
         return build(1, n);
     }
 };
 
 int main() {
     Solution s;
-    vector<TreeNode*> trees = s.generateTrees(3);
+    TreeList* trees = s.generateTrees(3);
+    
+    int count = 0;
+    TreeList* curr = trees;
+    while(curr) {
+        count++;
+        curr = curr->next;
+    }
+    
+    cout << "Generated " << count << " trees." << endl;
     return 0;
 }
