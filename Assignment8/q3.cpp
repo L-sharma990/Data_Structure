@@ -1,11 +1,11 @@
-#include <bits/stdc++.h>
+#include <iostream>
 using namespace std;
 
 struct Node {
     int key;
     Node* left;
     Node* right;
-    Node(int k) : key(k), left(NULL), right(NULL) {}
+    Node(int k) { key = k; left = right = NULL; }
 };
 
 Node* insertNode(Node* root, int key) {
@@ -25,18 +25,10 @@ Node* deleteNode(Node* root, int key) {
     if (key < root->key) root->left = deleteNode(root->left, key);
     else if (key > root->key) root->right = deleteNode(root->right, key);
     else {
-        if (!root->left && !root->right) {
-            delete root;
-            return NULL;
-        } else if (!root->left) {
-            Node* t = root->right;
-            delete root;
-            return t;
-        } else if (!root->right) {
-            Node* t = root->left;
-            delete root;
-            return t;
-        } else {
+        if (!root->left && !root->right) { delete root; return NULL; }
+        else if (!root->left) { Node* t = root->right; delete root; return t; }
+        else if (!root->right) { Node* t = root->left; delete root; return t; }
+        else {
             Node* t = findMin(root->right);
             root->key = t->key;
             root->right = deleteNode(root->right, t->key);
@@ -49,7 +41,7 @@ int maxDepth(Node* root) {
     if (!root) return 0;
     int l = maxDepth(root->left);
     int r = maxDepth(root->right);
-    return 1 + max(l, r);
+    return 1 + (l > r ? l : r);
 }
 
 int minDepth(Node* root) {
@@ -57,15 +49,16 @@ int minDepth(Node* root) {
     if (!root->left && !root->right) return 1;
     if (!root->left) return 1 + minDepth(root->right);
     if (!root->right) return 1 + minDepth(root->left);
-    return 1 + min(minDepth(root->left), minDepth(root->right));
+    int l = minDepth(root->left);
+    int r = minDepth(root->right);
+    return 1 + (l < r ? l : r);
 }
 
 int main() {
     Node* root = NULL;
-    int a[] = {20, 10, 30, 5, 15, 25, 35};
-    for (int x : a) root = insertNode(root, x);
+    int a[7] = {20,10,30,5,15,25,35};
+    for (int i = 0; i < 7; i++) root = insertNode(root, a[i]);
     root = deleteNode(root, 10);
     int mx = maxDepth(root);
     int mn = minDepth(root);
-    return 0;
 }
