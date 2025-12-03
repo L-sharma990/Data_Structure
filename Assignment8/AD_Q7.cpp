@@ -1,4 +1,5 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
 using namespace std;
 
 struct TreeNode {
@@ -58,6 +59,13 @@ int main() {
     t2->right = new TreeNode(70);
 
     DLLNode* head = mergeBSTsToDLL(t1, t2);
+    
+    DLLNode* temp = head;
+    while (temp) {
+        cout << temp->val << " ";
+        temp = temp->next;
+    }
+    cout << endl;
+
     return 0;
 }
-
